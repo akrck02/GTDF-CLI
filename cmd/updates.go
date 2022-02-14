@@ -7,7 +7,6 @@ package cmd
 import (
 	"fmt"
 
-	api "github.com/akrck02/GTDF-CLI/api"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +17,6 @@ var updateCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("update called")
-		api.New_project()
 	},
 }
 
