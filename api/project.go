@@ -2,7 +2,6 @@ package main
 
 import "fmt"
 
-func new_project() {
+func New_project() {
 	fmt.Println("new project")
 }
- 
