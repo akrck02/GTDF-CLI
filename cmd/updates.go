@@ -14,7 +14,7 @@ import (
 var updateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "Update GTDF_CLI.",
-	Long: ``,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("update called")
 	},

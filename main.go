@@ -1,6 +1,10 @@
+/*
+Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+
+*/
 package main
 
-import "cmd/cmd"
+import "github.com/akrck02/GTDF-CLI/cmd"
 
 func main() {
 	cmd.Execute()

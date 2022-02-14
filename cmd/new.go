@@ -14,9 +14,10 @@ import (
 var newCmd = &cobra.Command{
 	Use:   "new",
 	Short: "Create a new GTDF project.",
-	Long: ``,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("new called")
+
 	},
 }
 
