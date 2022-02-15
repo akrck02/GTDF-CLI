@@ -1,4 +1,6 @@
-# GTDF CLI
+
+![logo](https://user-images.githubusercontent.com/43274508/154163236-a2c9679f-9f27-44a4-8f63-dc4774491a62.png)
+
 This is the official CLI tool to operate with Getting Things Done Framework.
 
 ## How to use GTDF-CLI
