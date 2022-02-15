@@ -18,7 +18,19 @@ var newCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("new called")
-		api.New_project()
+
+		if len(args) < 2 {
+			fmt.Println("Please provide a project name and a project url.")
+			return
+		}
+
+		// url or empty string
+		url := args[0]
+
+		// name or empty string
+		name := args[1]
+
+		api.New_project(url, name)
 	},
 }
 
