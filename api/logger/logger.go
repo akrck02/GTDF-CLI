@@ -1,4 +1,4 @@
-package api
+package logger
 
 import (
 	"fmt"
@@ -26,6 +26,10 @@ func Log(msg string) {
 
 func Error(msg string) {
 	logger.Error(msg)
+}
+
+func Success(msg string) {
+
 }
 
 func Jump() {

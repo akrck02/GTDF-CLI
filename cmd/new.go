@@ -7,7 +7,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/akrck02/GTDF-CLI/api"
+	"github.com/akrck02/GTDF-CLI/api/core"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +30,7 @@ var newCmd = &cobra.Command{
 		// name or empty string
 		name := args[1]
 
-		api.New_project(url, name)
+		core.NewProject(url, name)
 	},
 }
 
