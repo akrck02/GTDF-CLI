@@ -1,7 +1,3 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
@@ -14,7 +10,7 @@ import (
 var testCmd = &cobra.Command{
 	Use:   "test",
 	Short: "Create a test.",
-	Long: ``,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("test called")
 	},

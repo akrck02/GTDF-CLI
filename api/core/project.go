@@ -10,7 +10,10 @@ import (
 	"github.com/akrck02/GTDF-CLI/api/logger"
 )
 
-var gtdfLatestUrl = "http://127.0.0.1/GTDF-Latest.zip?cli=" + CLI_VERSION //"https://akrck02.com/#/project/gtdf/latest/cli/v"
+const GTDF_LATEST_URL = "https://github.com/akrck02/GTD-Framework/releases/download/latest/GTD-Framework.zip"
+const DISTRO_DIR = "./dist"
+const LATEST_ZIP = "gtdf-latest.zip"
+const DEFAULT_PROJECT_NAME = "GTD-Framework"
 
 func NewProject(url string, name string) {
 
@@ -28,10 +31,7 @@ func NewProject(url string, name string) {
 		url = current_url
 	}
 
-	logger.Jump()
-	logger.Log("URL : " + url)
 	logger.Log("Name: " + name)
-	logger.Jump()
 
 	url = url + "/"
 	getLatestVersion(url, name)
@@ -40,27 +40,33 @@ func NewProject(url string, name string) {
 
 func getLatestVersion(url string, name string) {
 
-	logger.Log("Creating base directory...")
-	io.SecureMkdir(url, 0777)
-	logger.Log("Ok.")
-	logger.Jump()
+	distUrl := url + DISTRO_DIR + "/"
+	latestZipUrl := distUrl + LATEST_ZIP
+	defaultProjectUrl := distUrl + DEFAULT_PROJECT_NAME
+	newProjectUrl := url + name
 
-	logger.Log("Getting latest version...")
-	file, err := os.Create(url + "gtdf-latest.zip")
+	io.SecureMkdir(distUrl, 0777)
+	logger.Log("Created base directory")
+
+	io.RemoveAnyway(distUrl + "GTD-Framework")
+	logger.Log("Cleaned old files")
+
+	io.RemoveAnyway(newProjectUrl)
+	logger.Log("Cleaned old files")
+
+	file, err := os.Create(distUrl + "gtdf-latest.zip")
 	if err != nil {
 		logger.Error("Cannot create transition file. Check your permissions and try again.")
 		return
 	}
+	logger.Log("Fetched latest version")
 
-	resp, err := http.Get(gtdfLatestUrl)
-
+	resp, err := http.Get(GTDF_LATEST_URL)
 	logger.Log("Server response: " + resp.Status)
 	if err != nil || resp.StatusCode != 200 {
 		logger.Error("Cannot get latest version, check your internet connection and try again.")
 		return
 	}
-
-	logger.Jump()
 
 	size, err := goio.Copy(file, resp.Body)
 	if err != nil {
@@ -70,22 +76,14 @@ func getLatestVersion(url string, name string) {
 
 	defer file.Close()
 
-	logger.Log("Cleaning possible old files...")
-	io.RemoveAnyway(url + name)
-	logger.Log("Ok.")
-	logger.Jump()
+	io.Unzip(latestZipUrl, distUrl)
+	logger.Log("Extracted latest version of GTD Framework.")
 
-	logger.Log("Extracting latest version...")
-	io.Unzip(url+"gtdf-latest.zip", url)
-	logger.Log("Ok.")
-	logger.Jump()
-
-	logger.Log("Removing transition file...")
-	io.SecureRemoveFile(url + "gtdf-latest.zip")
-	io.SecureRenameFile(url+"GTD-Framework-main", url+name)
-	io.SecureRemoveAll(url + name + "/.github")
-	logger.Log("Ok.")
-	logger.Jump()
+	io.SecureRemoveFile(latestZipUrl)
+	io.SecureRemoveAll(defaultProjectUrl + "/.github")
+	io.SecureRenameFile(defaultProjectUrl, newProjectUrl)
+	io.SecureRemoveAll(distUrl)
+	logger.Log("Removed transition files.	")
 
 	logger.Log(fmt.Sprintf("Downloaded %d bytes", size))
 	logger.Log("Latest version fetched.")

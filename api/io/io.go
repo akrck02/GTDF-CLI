@@ -48,19 +48,34 @@ func GetCurrentDirectory() string {
 
 func WriteToFile(file string, text string) {
 
-	os.Create(file)
-	f, err := os.OpenFile(file, os.O_APPEND|os.O_WRONLY, 0777)
+	// add this line to existing file if it exists,
+	// create it if it doesn't
+
+	f, err := os.OpenFile(file, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		logger.Error(err.Error())
 	}
-
 	defer f.Close()
 
-	if _, err = f.WriteString(text); err != nil {
+	if _, err := f.WriteString(text); err != nil {
 		logger.Error(err.Error())
 	}
 
-	if err := f.Sync(); err != nil {
+}
+
+func WriteFileWith(file string, text string) {
+
+	// add this line to existing file if it exists,
+	// create it if it doesn't
+
+	f, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
 		logger.Error(err.Error())
 	}
+	defer f.Close()
+
+	if _, err := f.WriteString(text); err != nil {
+		logger.Error(err.Error())
+	}
+
 }
