@@ -2,7 +2,6 @@ package core
 
 import (
 	"bytes"
-	"html/template"
 	"strings"
 
 	"github.com/akrck02/GTDF-CLI/api/io"
@@ -36,11 +35,28 @@ func NewView(name string) {
 	logger.Log("View generated.")
 }
 
-func viewTemplate(name string) string {
-	templ := template.Must(template.New("view").Parse(templates.VIEW))
-	var tpl bytes.Buffer
+func DeleteView(name string) {
 
-	templ.Execute(&tpl, map[string]interface{}{
+	if !IsProject(io.GetCurrentDirectory()) {
+		logger.Error("You are not in a GTDF project directory.")
+		return
+	}
+
+	logger.Log("Deleting view " + name + "...")
+	caser := cases.Title(language.English)
+	name = caser.String(name)
+
+	io.SecureRemoveFile(io.GetCurrentDirectory() + "/frontend/src/views/" + strings.ToLower(name) + "/" + name + ".ts")
+	io.SecureRemoveFile(io.GetCurrentDirectory() + "/frontend/src/views/" + strings.ToLower(name) + "/" + name + ".core.ts")
+	io.SecureRemoveFile(io.GetCurrentDirectory() + "/frontend/src/views/" + strings.ToLower(name) + "/")
+
+	logger.Log("View deleted.")
+}
+
+func viewTemplate(name string) string {
+
+	var tpl bytes.Buffer
+	templates.VIEW_TEMPLATE.Execute(&tpl, map[string]interface{}{
 		"name": name,
 	})
 
@@ -49,10 +65,8 @@ func viewTemplate(name string) string {
 
 func viewCoreTemplate(name string) string {
 
-	templ := template.Must(template.New("view").Parse(templates.VIEW_CORE))
 	var tpl bytes.Buffer
-
-	templ.Execute(&tpl, map[string]interface{}{
+	templates.VIEW_CORE_TEMPLATE.Execute(&tpl, map[string]interface{}{
 		"name": name,
 	})
 

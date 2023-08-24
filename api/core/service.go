@@ -2,7 +2,6 @@ package core
 
 import (
 	"bytes"
-	"html/template"
 
 	"github.com/akrck02/GTDF-CLI/api/io"
 	"github.com/akrck02/GTDF-CLI/api/logger"
@@ -13,7 +12,6 @@ import (
 
 func NewService(name string) {
 
-	logger.Log("Current directory: " + io.GetCurrentDirectory())
 	if !IsProject(io.GetCurrentDirectory()) {
 		logger.Error("You are not in a GTDF project directory.")
 		return
@@ -29,11 +27,26 @@ func NewService(name string) {
 	logger.Log("Service generated.")
 }
 
-func serviceTemplate(name string) string {
-	templ := template.Must(template.New("view").Parse(templates.SERVICE))
-	var tpl bytes.Buffer
+func DeleteService(name string) {
 
-	templ.Execute(&tpl, map[string]interface{}{
+	if !IsProject(io.GetCurrentDirectory()) {
+		logger.Error("You are not in a GTDF project directory.")
+		return
+	}
+
+	logger.Log("Deleting service " + name + "...")
+	caser := cases.Title(language.English)
+	name = caser.String(name)
+
+	io.SecureRemoveFile(io.GetCurrentDirectory() + "/frontend/src/services/" + name + ".ts")
+	logger.Log("Service deleted.")
+
+}
+
+func serviceTemplate(name string) string {
+
+	var tpl bytes.Buffer
+	templates.SERVICE.Execute(&tpl, map[string]interface{}{
 		"name": name,
 	})
 

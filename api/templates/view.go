@@ -1,6 +1,8 @@
 package templates
 
-const VIEW = `
+import "html/template"
+
+const viewTpl = `
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 
 export default class {{.name}} extends ViewUI {
@@ -20,7 +22,7 @@ export default class {{.name}} extends ViewUI {
 	}
 }	
 `
-const VIEW_CORE = `
+const viewCoreTpl = `
 import { ViewCore } from "../../lib/gtdf/views/ViewCore.js";
 
 export default class {{.name}} extends ViewCore {
@@ -34,3 +36,6 @@ export default class {{.name}} extends ViewCore {
 
 }
 `
+
+var VIEW_TEMPLATE = template.Must(template.New("view").Parse(viewTpl))
+var VIEW_CORE_TEMPLATE = template.Must(template.New("viewCore").Parse(viewCoreTpl))

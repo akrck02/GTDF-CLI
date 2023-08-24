@@ -1,6 +1,8 @@
 package templates
 
-const SERVICE = `
+import "html/template"
+
+const serviceTmpl = `
 export default class {{.name}} {
 
     public static ping(){
@@ -10,5 +12,6 @@ export default class {{.name}} {
 		};
     }
 }
-
 `
+
+var SERVICE = template.Must(template.New("service").Parse(serviceTmpl))
