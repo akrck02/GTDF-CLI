@@ -3,8 +3,14 @@ package cmd
 import (
 	"github.com/akrck02/GTDF-CLI/api/core"
 	"github.com/akrck02/GTDF-CLI/api/logger"
+	middleware "github.com/akrck02/GTDF-CLI/api/middleware"
 	"github.com/spf13/cobra"
 )
+
+// array of functions to be called before the command is executed
+var viewMiddlewares = []func(cmd *cobra.Command, args []string){
+	middleware.ProjectCheck,
+}
 
 // viewCmd represents the view command
 var viewCmd = &cobra.Command{
@@ -30,6 +36,13 @@ var viewCmd = &cobra.Command{
 }
 
 func init() {
+
+	// add middlewares to the command
+	for _, middleware := range viewMiddlewares {
+		viewCmd.PreRun = middleware
+	}
+
+	// add command to root command
 	rootCmd.AddCommand(viewCmd)
 	viewCmd.PersistentFlags().BoolP("delete", "d", false, "Delete the view.")
 }

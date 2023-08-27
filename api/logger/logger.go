@@ -10,7 +10,7 @@ import (
 
 var titleCharNum = 67
 var titleChar = "-"
-var logger = log.New(os.Stderr)
+var logger = log.New(os.Stderr).WithoutDebug().WithoutTimestamp().WithColor()
 
 func ShowLogGtdfTitle() {
 	fmt.Println(strings.Repeat(titleChar, titleCharNum))
@@ -28,8 +28,8 @@ func Error(msg string) {
 	logger.Error(msg)
 }
 
-func Success(msg string) {
-
+func Warn(msg string) {
+	logger.Warn(msg)
 }
 
 func Jump() {

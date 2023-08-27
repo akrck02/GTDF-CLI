@@ -13,12 +13,6 @@ import (
 
 func NewView(name string) {
 
-	logger.Log("Current directory: " + io.GetCurrentDirectory())
-	if !IsProject(io.GetCurrentDirectory()) {
-		logger.Error("You are not in a GTDF project directory.")
-		return
-	}
-
 	logger.Log("Generating view " + name + "...")
 	caser := cases.Title(language.English)
 	name = caser.String(name)
@@ -27,7 +21,6 @@ func NewView(name string) {
 
 	template := viewTemplate(name)
 	coreTemplate := viewCoreTemplate(name)
-	//logger.Log(template)
 
 	io.WriteFileWith(io.GetCurrentDirectory()+"/frontend/src/views/"+strings.ToLower(name)+"/"+name+".ts", template)
 	io.WriteFileWith(io.GetCurrentDirectory()+"/frontend/src/views/"+strings.ToLower(name)+"/"+name+".core.ts", coreTemplate)
@@ -36,11 +29,6 @@ func NewView(name string) {
 }
 
 func DeleteView(name string) {
-
-	if !IsProject(io.GetCurrentDirectory()) {
-		logger.Error("You are not in a GTDF project directory.")
-		return
-	}
 
 	logger.Log("Deleting view " + name + "...")
 	caser := cases.Title(language.English)

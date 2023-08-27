@@ -12,11 +12,6 @@ import (
 
 func NewService(name string) {
 
-	if !IsProject(io.GetCurrentDirectory()) {
-		logger.Error("You are not in a GTDF project directory.")
-		return
-	}
-
 	logger.Log("Generating service " + name + "...")
 	caser := cases.Title(language.English)
 	name = caser.String(name)
@@ -28,11 +23,6 @@ func NewService(name string) {
 }
 
 func DeleteService(name string) {
-
-	if !IsProject(io.GetCurrentDirectory()) {
-		logger.Error("You are not in a GTDF project directory.")
-		return
-	}
 
 	logger.Log("Deleting service " + name + "...")
 	caser := cases.Title(language.English)
